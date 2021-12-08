@@ -260,6 +260,7 @@ public class Supermercados implements Serializable {
                     System.out.println("Nao existe stock sufeciente!");
                 }else{
                  carrinho.setQuantidade(carrinho.getQuantidade() + quantidade);
+                 carrinho.getItem().setStock(carrinho.getItem().getStock() - quantidade):
                  compra.add_total(p.get(i).getPreco() * quantidade);
                  encontrado++;
                 }
