@@ -1,19 +1,29 @@
 package exercicio_avaliacao_5;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Supermercados {
+public class Supermercados implements Serializable {
     
     ArrayList<Promocoes> promocoes = new ArrayList<>();
     ArrayList<Compra> compras = new ArrayList<>();
     ArrayList<Cliente> clientes = new ArrayList<>();
+    ArrayList<Produtos> p = new ArrayList<>();
     
     
     public Supermercados() {
     }
     
+    void add_produtos(Produtos prod){
+            p.add(prod);
+    }
     
     void add_promocoes(Promocoes promo){
         promocoes.add(promo);
@@ -21,13 +31,17 @@ public class Supermercados {
     
     void add_compra(Compra compra){
         compras.add(compra);
+        
     }
         
     void add_clientes(Cliente cliente){
         clientes.add(cliente);
     }
     
-    
+    /**
+     * Allows us to ask the user for an int and, check if the value given is correct.
+     * @return returns, int given by the user
+     */
     int ler_inteiro(){
         
         int n;
@@ -48,7 +62,10 @@ public class Supermercados {
     
     
     
-    
+    /**
+     * Allows us to receive a string from the user and, check if the string is valid.
+     * @return returns, string given by the user.
+     */
     String ler_texto(){ 
          
         String str;  
@@ -68,6 +85,10 @@ public class Supermercados {
     return str;
     }
     
+    /**
+     * Allows us to receive a Data from the user and, check if the Data is valid.
+     * @return return, Data given by user.
+     */
     String[] le_data(){
         
         int erro;
@@ -112,7 +133,13 @@ public class Supermercados {
         
     }
     
-    
+    /**
+     * Allows us to check if one Data is after another.
+     * 
+     * @param d First Data for the verification.
+     * @param d1 Second Data for the verification. 
+     * @return true if first Data is after second Data , false if first Data is before second Data.
+     */
     boolean data_verifica(Data d, Data d1){
         boolean return_statement = false;
         
@@ -128,7 +155,11 @@ public class Supermercados {
     
     
     
-    
+    /**
+     * Prints all the purchases made in the current Data.
+     * 
+     * @param d Gives us the current Data to check if the purchases are made before this Data.
+     */
     void mostrar_compras(Data d){
         int check_compra = 0;
         
@@ -143,7 +174,11 @@ public class Supermercados {
             System.out.println("Ainda nao foram realizadas compras.");   
     }
  
-    
+    /**
+     * Checks if the Client exists.
+     * @param texto email of the the Client
+     * @return returns , Client after being found.
+     */
     Cliente existe(String texto){
         
         int encontrado = 0;
@@ -167,7 +202,14 @@ public class Supermercados {
        return c;  
     }
     
-    
+    /**
+     * Checks if the promotion is valid in the current Data.
+     * 
+     * @param promo Promotion that is going to be checked.
+     * @param d Data that the promotion is going to be checked in.
+     * @return True if the promotion is valid in this data, False if the promotion is not valid in the given Data.
+     * 
+     */
     boolean verifica_promo(Promocoes promo,Data d){
         
         boolean valido = false;
@@ -185,7 +227,16 @@ public class Supermercados {
     }
     
     
-    
+    /**
+     * Does the first part of the menu.
+     * 
+     * @param s Receives the Supermarket class.
+     * @param p Receives the ArrayList products.
+     * @param compra Receives the Purchases.
+     * @param i Receives the index of the product we want to acess in the arraylist products.
+     * 
+     * @return returns, the quantity of the product that the user wants to buy.
+     */
     
     int menu_compra1(Supermercados s , ArrayList<Produtos> p , Compra compra , int i){
         int encontrado = 0;
@@ -204,9 +255,14 @@ public class Supermercados {
         for(Carro_compras carrinho : compra.getCarro()){
             
             if(p.get(i) == carrinho.getItem()){
+                if(carrinho.getItem().getStock() < quantidade){
+                    encontrado++;
+                    System.out.println("Nao existe stock sufeciente!");
+                }else{
                  carrinho.setQuantidade(carrinho.getQuantidade() + quantidade);
                  compra.add_total(p.get(i).getPreco() * quantidade);
                  encontrado++;
+                }
             }        
         }
         if(encontrado == 0){
@@ -219,7 +275,18 @@ public class Supermercados {
 
 
 
-
+    /**
+     * Second part of the menu.
+     * 
+     * @param p Arraylist of products.
+     * @param compra Purchases.
+     * @param quantidade Quantity of the product.
+     * @param s Supermarket class.
+     * @param d Current Data.
+     * @param cli Client that is making the purchase.
+     * 
+     * @return Value to check if the purchase was finished or not.
+     */
 
     int menu_compra2(ArrayList<Produtos> p , Compra compra , int quantidade , Supermercados s , Data d , Cliente cli){
         for(Produtos prod : p){
@@ -253,7 +320,14 @@ public class Supermercados {
     
     
     
-    
+    /**
+     * Allows user to make the choice between the numbers that are on the screen.
+     * 
+     * @param i Max value that can be choosen.
+     * @param s Supermarket class.
+     * 
+     * @return the choice that was made.
+     */
     int fazer_escolha(int i , Supermercados s){
         int escolha = 0;
         while(!(escolha > 0 && escolha < i)){
@@ -283,8 +357,15 @@ public class Supermercados {
         c.getCarro().remove(indice);
     }
     
-    
-    void menu(ArrayList<Produtos> p, Data d , Cliente cli , String[] dias , Supermercados s){
+    /**
+     * All the menu.
+     * 
+     * @param d Current Data.
+     * @param cli Client that's making the purchase.
+     * @param dias Stores the day,month,year when we want to change current Data.
+     * @param s Supermarket class.
+     */
+    void menu(Data d , Cliente cli , String[] dias , Supermercados s){
         int escolha , escolha4;
           do{
             int fazer_compra = 0;
@@ -393,4 +474,57 @@ public class Supermercados {
     
         }while(escolha != 4);
     }    
+    
+    
+    /**
+     * Reads the file.
+     * 
+     * @param myObj Receives the File that is going to read.
+     */
+    void ler_ficheiro(File myObj){
+        try {
+          Scanner myReader = new Scanner(myObj);
+          while (myReader.hasNextLine()) {
+            String data = myReader.nextLine();
+            System.out.println(data);
+          }
+          myReader.close();
+        } catch (FileNotFoundException e) {
+          System.out.println("An error occurred.");
+          e.printStackTrace();
+      }
+    }
+
+    @Override
+    public String toString() {
+        return  "Promocoes = " + promocoes.toString() + 
+                "; Clientes = " + clientes.toString() + 
+                "; Produtos = " + p.toString() +
+                "; Clientes = " + clientes.toString();        
+    }
+
+    
+    /**
+     * Writes object into the file.
+     * 
+     * @param serObj Object received.
+     * @param f File that is going to be written into.
+     */
+    void WriteObjectToFile(Object serObj , File f) {
+ 
+        try {
+ 
+            FileOutputStream fileOut = new FileOutputStream(f);
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+            objectOut.writeObject(serObj);
+            objectOut.close();
+            System.out.println("The Object  was succesfully written to a file");
+ 
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }catch(IOException ex){
+           System.out.println("Erro a escrever para o ficheiro.");
+        }
+    
+    }         
 }
