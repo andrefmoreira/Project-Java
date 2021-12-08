@@ -1,0 +1,5 @@
+alimentares,120,15,a,Queijo da Serra,5.0,30
+limpeza,105,b,Limpa-tudo,7.0,15
+mobiliario,17.3,13.2,c,Armário,25.0,5
+mobiliario,14.0,11.2,d,Cadeira,15.0,10
+alimentares,100,10,e,Manteiga,2.5,22

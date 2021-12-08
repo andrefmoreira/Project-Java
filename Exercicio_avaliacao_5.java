@@ -1,66 +1,53 @@
 package exercicio_avaliacao_5;
-import java.io.File;
+import java.io.*;
 
 
 public class Exercicio_avaliacao_5 {
        
     
     public static void main(String[] args) {
-        
-        File f = new File("file.txt");
-        
+
         Supermercados s = new Supermercados();
-        String dias[] = null;
-        
-        Data d = new Data(1,1,1);
-        Data d1 = new Data(1,1,1000);
-        Data d2 = new Data(12,10,2021);
-        Data d3 = new Data(10,10,2021);
-        String email = null;
 
-        Cliente cli; 
-        
-        s.add_clientes(new Frequente("Andre","rua escura","email@hotmail.com",911122222,d));
-        s.add_clientes(new Frequente("Asdrubalino","rua dos santos","asdrubalino@gmail.com",963963963,d3));
-        s.add_clientes(new Frequente("Joao","rua da luz","mais@hotmail.com",912123456,d));
-        s.add_clientes(new Frequente("Joana","rua do escuro","menos@gmail.com",98888888,d2));
-        s.add_clientes(new Frequente("Super Mario","BeanBean Kingdom","supermario@hotmail.com",911111111,d1));
-        
-        s.add_clientes(new Normal("Diogo","rua clara","p@gmail.com",923422234,d1));
-        s.add_clientes(new Normal("Maria","Rua dos cleridos","gmail@gmail.com",919999222,d2));
-        s.add_clientes(new Normal("Alesdresia","rua dos demonios","j@hotmail.com",986862321,d3));
-        s.add_clientes(new Normal("Toad","Reino Cogumelo","cogumelo@gmail.com",954213211,d));
-        s.add_clientes(new Normal("Bowser","Reino dos Koopas","bowser@hotmail.com",923111898,d2));
-        
-        
-        System.out.println("Iniciando login.....");  
-        System.out.println("Qual o seu email: ");       
+        File fileProdutos = new File("produtos.txt");
+        File fileClientes = new File("clientes.txt");
+        File filePromocoes = new File("promocoes.txt");
+        File fileSupermercados = new File("Supermercados.obj");
 
-        cli = s.existe(email);    
-        
-        System.out.println("\nBem Vindo " + cli.getNome() + "..." );                        
-       
-        Alimentares a = new Alimentares(120,15,"aaaaaaa","Queijo da Serra",5.0,30);
-        Limpeza l = new Limpeza(105,"aaaaaaa","Limpa-tudo",7.0,15);   
-        Mobiliario m = new Mobiliario(17.3,13.2,"aaaaa","Armario",25.0,5);
-        Mobiliario m1 = new Mobiliario(14.0,11.2,"aaaaa","Cadeira",15.0,10);
-        Alimentares a1 = new Alimentares(100,10,"aaaaaaa","Manteiga",2.5,22);
-        
-        s.add_produtos(a);
-        s.add_produtos(l);
-        s.add_produtos(m);
-        s.add_produtos(m1);
-        s.add_produtos(a1);
-        
-        a.add_promo(new Pague_3_leve_4(d3,d2));
-        a.add_promo(new Pague_menos(d,d1));
-        m1.add_promo(new Pague_menos(d,d1)); 
-        l.add_promo(new Pague_3_leve_4(d,d1));
-        m.add_promo(new Pague_3_leve_4(d3,d2));
-        
-        
-        s.menu(d , cli , dias , s);
-        s.WriteObjectToFile(s , f);
+        Cliente cli = null;
+
+        if(!fileSupermercados.exists()){
+            s.ler_ficheiro_produtos(fileProdutos);
+            s.ler_ficheiro_promocoes(filePromocoes);
+            s.ler_ficheiro_clientes(fileClientes);
+            System.out.println("Iniciando login.....");
+            System.out.println("Qual o seu email: ");
+            String email = s.ler_texto();
+            cli = s.existe(email);
+        } else{
+            Supermercados s1 = s.ReadObjectToFile(fileSupermercados);
+            System.out.println("Iniciando login.....");
+            System.out.println("Qual o seu email: ");
+            String email = s1.ler_texto();
+            cli = s1.existe(email);
+            s = s1;
+        }
+
+        System.out.println("\nBem Vindo " + cli.getNome() + "..." );
+        s.menu(cli , s);
+        try {
+
+            FileOutputStream fileOut = new FileOutputStream(fileSupermercados);
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+            objectOut.writeObject(s);
+            objectOut.close();
+            System.out.println("The Object  was successfully written to a file");
+
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }catch(IOException ex){
+            System.out.println(ex);
+        }
         System.out.println("\nMuito obrigado por comprar com o Continente!!!\nAté Breve....");
     }
 }

@@ -1,18 +1,12 @@
 package exercicio_avaliacao_5;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Supermercados implements Serializable {
-    
-    ArrayList<Promocoes> promocoes = new ArrayList<>();
     ArrayList<Compra> compras = new ArrayList<>();
     ArrayList<Cliente> clientes = new ArrayList<>();
     ArrayList<Produtos> p = new ArrayList<>();
@@ -25,9 +19,7 @@ public class Supermercados implements Serializable {
             p.add(prod);
     }
     
-    void add_promocoes(Promocoes promo){
-        promocoes.add(promo);
-    }
+
     
     void add_compra(Compra compra){
         compras.add(compra);
@@ -180,26 +172,23 @@ public class Supermercados implements Serializable {
      * @return returns , Client after being found.
      */
     Cliente existe(String texto){
-        
         int encontrado = 0;
         Cliente c = null;
 
         while(encontrado == 0){
-            
+
             texto = ler_texto();
-            
             for(Cliente cli : clientes){
                 if((cli.getEmail()).toLowerCase().equals(texto.toLowerCase())){
-                    cli.toString();
-                    encontrado += 1;
-                    c = cli;
+                        encontrado += 1;
+                        return cli;
                     }
                 }
         if(encontrado == 0)
             System.out.println("Nao existe nenhum cliente com esse email.\nQual o seu email?");
-          
+
         }
-       return c;  
+        return c;
     }
     
     /**
@@ -260,7 +249,7 @@ public class Supermercados implements Serializable {
                     System.out.println("Nao existe stock sufeciente!");
                 }else{
                  carrinho.setQuantidade(carrinho.getQuantidade() + quantidade);
-                 carrinho.getItem().setStock(carrinho.getItem().getStock() - quantidade):
+                 carrinho.getItem().setStock(carrinho.getItem().getStock() - quantidade);
                  compra.add_total(p.get(i).getPreco() * quantidade);
                  encontrado++;
                 }
@@ -360,16 +349,21 @@ public class Supermercados implements Serializable {
     
     /**
      * All the menu.
-     * 
-     * @param d Current Data.
+     *
      * @param cli Client that's making the purchase.
-     * @param dias Stores the day,month,year when we want to change current Data.
      * @param s Supermarket class.
      */
-    void menu(Data d , Cliente cli , String[] dias , Supermercados s){
+    void menu(Cliente cli , Supermercados s){
         int escolha , escolha4;
           do{
-            int fazer_compra = 0;
+              Data d = null;
+              String[] dias;
+              do{
+                  dias = s.le_data();
+                  d = new Data(Integer.parseInt(dias[0]),Integer.parseInt(dias[1]),Integer.parseInt(dias[2]));
+              }while(d.verifica_data(Integer.parseInt(dias[0]),Integer.parseInt(dias[1]),Integer.parseInt(dias[2])) == false);
+
+              int fazer_compra = 0;
             
             System.out.println("\nO que deseja fazer?\n\n1 - Fazer uma compra\n2 - Verificar todas as compras realizadas.\n3 - Mudar data\n4 - Terminar o programa.\n\n");
             escolha = fazer_escolha(5,s);
@@ -400,7 +394,7 @@ public class Supermercados implements Serializable {
                             }
                             
                             if(indice == -1)
-                                System.out.println("Nao exsite nenhum produto com esse nome.");
+                                System.out.println("Nao existe nenhum produto com esse nome.");
                         }
                         
                         quantidade = s.menu_compra1(s , p , compra , indice);
@@ -474,60 +468,118 @@ public class Supermercados implements Serializable {
             }    
     
         }while(escolha != 4);
-    }    
-    
-    
-    /**
-     * Reads the file.
-     * 
-     * @param myObj Receives the File that is going to read.
-     */
-    void ler_ficheiro(File myObj){
-        try {
-          Scanner myReader = new Scanner(myObj);
-          while (myReader.hasNextLine()) {
-            String data = myReader.nextLine();
-            System.out.println(data);
-          }
-          myReader.close();
-        } catch (FileNotFoundException e) {
-          System.out.println("An error occurred.");
-          e.printStackTrace();
-      }
     }
 
     @Override
     public String toString() {
-        return  "Promocoes = " + promocoes.toString() + 
-                "; Clientes = " + clientes.toString() + 
+        return  "Clientes = " + clientes.toString() +
                 "; Produtos = " + p.toString() +
                 "; Clientes = " + clientes.toString();        
     }
 
-    
     /**
-     * Writes object into the file.
-     * 
-     * @param serObj Object received.
+     * Reads object into the file.
+     *
      * @param f File that is going to be written into.
      */
-    void WriteObjectToFile(Object serObj , File f) {
- 
+    public Supermercados ReadObjectToFile(File f) {
         try {
- 
-            FileOutputStream fileOut = new FileOutputStream(f);
-            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-            objectOut.writeObject(serObj);
-            objectOut.close();
-            System.out.println("The Object  was succesfully written to a file");
- 
-        } catch (FileNotFoundException ex) {
+
+            FileInputStream fileIn = new FileInputStream(f);
+            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+            Supermercados s = (Supermercados) objectIn.readObject();
+            objectIn.close();
+            System.out.println("The Object  was succesfully read to a file");
+            return s;
+
+        } catch (FileNotFoundException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }catch(IOException ex){
-           System.out.println("Erro a escrever para o ficheiro.");
+            System.out.println("Erro a escrever para o ficheiro.");
         }
-    
-    }         
+        return null;
+    }
+
+    /**
+     * Reads the file.
+     *
+     * @param myFil Receives the File that is going to read.
+     */
+    public void ler_ficheiro_clientes(File myFil){
+        try {
+            Scanner myReader = new Scanner(myFil);
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                String[] quebra = data.split(",");
+                Data d = new Data(Integer.parseInt(quebra[4]), Integer.parseInt(quebra[5]), Integer.parseInt(quebra[6]));
+                if(Objects.equals(quebra[7], "frequente")){
+                    clientes.add(new Frequente(quebra[0], quebra[1], quebra[2], Integer.parseInt(quebra[3]),d));
+                } else{
+                    clientes.add(new Normal(quebra[0], quebra[1], quebra[2], Integer.parseInt(quebra[3]),d));
+                }
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        } catch(NumberFormatException e) {
+            System.out.println("Erro a converter texto em inteiro.");
+        }
+    }
+
+    public void ler_ficheiro_produtos(File myFil){
+        try {
+            Scanner myReader = new Scanner(myFil);
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                String[] quebra = data.split(",");
+                if(Objects.equals(quebra[0], "alimentares")){
+                    p.add(new Alimentares(Integer.parseInt(quebra[1]), Integer.parseInt(quebra[2]), quebra[3], quebra[4], Double.parseDouble(quebra[5]), Integer.parseInt(quebra[6])));
+                } else if (Objects.equals(quebra[0], "mobiliario")){
+                    p.add(new Mobiliario(Double.parseDouble(quebra[1]), Double.parseDouble(quebra[2]), quebra[3], quebra[4], Double.parseDouble(quebra[5]), Integer.parseInt(quebra[6])));
+                }else{
+                    p.add(new Limpeza(Integer.parseInt(quebra[1]), quebra[2], quebra[3], Double.parseDouble(quebra[4]), Integer.parseInt(quebra[5])));
+                }
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        } catch(NumberFormatException e) {
+            System.out.println("Erro a converter texto em inteiro.");
+        }
+    }
+
+    public void ler_ficheiro_promocoes(File myFil){
+        try {
+            Scanner myReader = new Scanner(myFil);
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                String[] quebra = data.split(",");
+                Data d = new Data(Integer.parseInt(quebra[0]), Integer.parseInt(quebra[1]), Integer.parseInt(quebra[2]));
+                Data d1 = new Data(Integer.parseInt(quebra[3]), Integer.parseInt(quebra[4]), Integer.parseInt(quebra[5]));
+                if(Objects.equals(quebra[6], "pague_3_leve_4")){
+                    for (int i = 0; i < p.size(); i++){
+                        if(p.get(i).equals(quebra[7])){
+                            p.get(i).add_promo(new Pague_3_leve_4(d, d1));
+                        }
+                    }
+                } else{
+                    for (int i = 0; i < p.size(); i++){
+                        if(p.get(i).equals(quebra[7])){
+                            p.get(i).add_promo(new Pague_menos(d, d1));
+                        }
+                    }
+                }
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        } catch(NumberFormatException e) {
+            System.out.println("Erro a converter texto em inteiro.");
+        }
+    }
 }
 
 

@@ -1,6 +1,8 @@
 package exercicio_avaliacao_5;
 
-public class Data {
+import java.io.Serializable;
+
+public class Data implements Serializable {
     
     private int dia, mes, ano;
     

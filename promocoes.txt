@@ -1,0 +1,5 @@
+10,10,2021,2,10,2022,pague_3_leve_4,Limpa-tudo
+10,1,21,2,10,22,pague_menos,Armário
+10,11,1,2,10,2,pague_menos,Limpa-tudo
+10,10,20,2,11,20,pague_3_leve_4,Manteiga
+10,12,2021,2,10,2022,pague_3_leve_4,Manteiga

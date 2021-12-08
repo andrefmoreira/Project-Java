@@ -1,0 +1,10 @@
+Andre,rua escura,email@hotmail.com,911122222,1,1,1,normal
+Asdrubalino,rua dos santos,asdrubalino@gmail.com,963963963,10,10,2021,frequente
+Joao,rua da luz,mais@hotmail.com,912123456,1,1,1,frequente
+Joana,rua do escuro,menos@gmail.com,98888888,12,10,2021,normal
+Super Mario,BeanBean Kingdom,supermario@hotmail.com,911111111,1,1,1000,frequente
+Diogo,rua clara,p@gmail.com,923422234,1,1,1000,normal
+Maria,Rua dos cleridos,gmail@gmail.com,919999222,12,10,2021,normal
+Alesdresia,rua dos demonios,j@hotmail.com,986862321,10,10,2021,frequente
+Toad,Reino Cogumelo,cogumelo@gmail.com,954213211,1,1,1,normal
+Bowser,Reino dos Koopas,bowser@hotmail.com,923111898,12,10,2021,frequente

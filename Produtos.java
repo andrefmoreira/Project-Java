@@ -49,7 +49,7 @@ abstract public class Produtos implements Serializable{
         return stock;
     }
     
-    void add_promo(Promocoes pro){
+    public void add_promo(Promocoes pro){
         promo.add(pro);
     }
 
