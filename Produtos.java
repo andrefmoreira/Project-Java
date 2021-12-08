@@ -1,8 +1,8 @@
 package exercicio_avaliacao_5;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 
-abstract public class Produtos {
+abstract public class Produtos implements Serializable{
     
     private String identificador;
     private String nome;
@@ -57,6 +57,10 @@ abstract public class Produtos {
         return promo;
     }
     
+    /**
+     * Checks if the item has any value for it´s transsportation
+     * @return returns the value of the transportation of the item.
+     */
     abstract public double Transportar_item();
     
     @Override

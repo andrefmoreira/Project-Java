@@ -1,6 +1,7 @@
 package exercicio_avaliacao_5;
+import java.io.Serializable;
 
-abstract public class Cliente {
+abstract public class Cliente implements Serializable{
     
     private String nome;
     private String morada;
@@ -62,6 +63,11 @@ abstract public class Cliente {
         return  "Nome: " + nome + ", Morada: " + morada + ", Email: " + email + ", Telefone: " + telefone + ", Data de nascimento: " + data_nascimento;
     }
     
+    /**
+     * Checks the value of the transport.
+     * @param total , receives the total of the purchase
+     * @return Value of the transport.
+     */
     abstract public int transporte(double total);
         
     

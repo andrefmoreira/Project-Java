@@ -1,12 +1,14 @@
 package exercicio_avaliacao_5;
-import java.util.ArrayList;
+import java.io.File;
+
 
 public class Exercicio_avaliacao_5 {
        
     
     public static void main(String[] args) {
         
-        ArrayList<Produtos> p = new ArrayList<>(); 
+        File f = new File("file.txt");
+        
         Supermercados s = new Supermercados();
         String dias[] = null;
         
@@ -41,16 +43,24 @@ public class Exercicio_avaliacao_5 {
         Alimentares a = new Alimentares(120,15,"aaaaaaa","Queijo da Serra",5.0,30);
         Limpeza l = new Limpeza(105,"aaaaaaa","Limpa-tudo",7.0,15);   
         Mobiliario m = new Mobiliario(17.3,13.2,"aaaaa","Armario",25.0,5);
+        Mobiliario m1 = new Mobiliario(14.0,11.2,"aaaaa","Cadeira",15.0,10);
+        Alimentares a1 = new Alimentares(100,10,"aaaaaaa","Manteiga",2.5,22);
         
-        p.add(a);
-        p.add(l);
-        p.add(m);
+        s.add_produtos(a);
+        s.add_produtos(l);
+        s.add_produtos(m);
+        s.add_produtos(m1);
+        s.add_produtos(a1);
         
         a.add_promo(new Pague_3_leve_4(d3,d2));
-        a.add_promo(new Pague_menos(d,d1));    
+        a.add_promo(new Pague_menos(d,d1));
+        m1.add_promo(new Pague_menos(d,d1)); 
+        l.add_promo(new Pague_3_leve_4(d,d1));
+        m.add_promo(new Pague_3_leve_4(d3,d2));
         
-        s.menu(p , d , cli , dias , s);
         
+        s.menu(d , cli , dias , s);
+        s.WriteObjectToFile(s , f);
         System.out.println("\nMuito obrigado por comprar com o Continente!!!\nAté Breve....");
     }
 }

@@ -1,8 +1,8 @@
 package exercicio_avaliacao_5;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Compra {
+public class Compra implements Serializable{
     
     private double total;
     private Data data;
