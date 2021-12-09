@@ -176,10 +176,11 @@ public class Supermercados implements Serializable {
         Cliente c = null;
 
         while(encontrado == 0){
-
+            
+            texto = ler_texto();
+            
             for(Cliente cli : clientes){
                 if((cli.getEmail()).toLowerCase().equals(texto.toLowerCase())){
-                        encontrado += 1;
                         return cli;
                     }
                 }
@@ -373,7 +374,7 @@ public class Supermercados implements Serializable {
                 case(1):
                     
                     String escolha2;
-                    int escolha3 = 0 , quantidade , indice;
+                    int escolha3 , quantidade , indice;
                     
                     for(Produtos prod: p)
                         System.out.printf(prod.toString() + "\n\n");
@@ -417,11 +418,11 @@ public class Supermercados implements Serializable {
 
                                 if(escolha3 == 1){
 
-                                    System.out.println("\n1 ->Eliminar um produto\n2 ->Eliminar todos os produtos\n");
+                                    System.out.println("1 ->Eliminar um produto\n2 ->Eliminar todos os produtos\n");
                                     escolha4 = fazer_escolha(3,s);
 
                                     if(escolha4 == 1){
-
+                                        int eliminado = 0;
                                         System.out.println("Qual produto deseja eliminar?\n");
 
                                         for(Carro_compras carrinho : compra.getCarro()){
@@ -432,11 +433,18 @@ public class Supermercados implements Serializable {
                                         escolha2 = ler_texto();
 
                                         for(int x = 0; x < p.size() ; x++){
-                                            if(escolha2.toLowerCase().equals(p.get(x).getNome().toLowerCase()))
-                                                eliminar_produto(p.get(x) , compra);
+                                            for(Carro_compras carrinho : compra.getCarro()){
+                                                if(escolha2.toLowerCase().equals(carrinho.getItem().getNome().toLowerCase()))
+                                                    if(escolha2.toLowerCase().equals(p.get(x).getNome().toLowerCase())){
+                                                        eliminar_produto(p.get(x) , compra);
+                                                        eliminado++;
+                                               }
                                            }
-
-                                        System.out.println("Produto eliminado com sucesso!");
+                                        }   
+                                        if(eliminado == 1)
+                                            System.out.println("Produto eliminado com sucesso!");
+                                        else
+                                             System.out.println("Produto nao encontrado!");   
                                     }else{
                                         compra.getCarro().clear();
                                     }
