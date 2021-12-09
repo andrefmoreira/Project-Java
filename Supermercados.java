@@ -177,7 +177,6 @@ public class Supermercados implements Serializable {
 
         while(encontrado == 0){
 
-            texto = ler_texto();
             for(Cliente cli : clientes){
                 if((cli.getEmail()).toLowerCase().equals(texto.toLowerCase())){
                         encontrado += 1;
@@ -235,6 +234,7 @@ public class Supermercados implements Serializable {
             
         System.out.println("\nQual a quantidade que deseja comprar deste produto?");
         quantidade = ler_inteiro();
+        System.out.printf("\n");
         
         if(quantidade < 0)
             System.out.println("Valor Inserido e Invalido.");
@@ -322,6 +322,7 @@ public class Supermercados implements Serializable {
         int escolha = 0;
         while(!(escolha > 0 && escolha < i)){
             escolha = s.ler_inteiro();
+            System.out.printf("\n");
             if(!(escolha > 0 && escolha < i))
                 System.out.println("Escolha uma das opcoes mostradas.");
         }
@@ -365,7 +366,7 @@ public class Supermercados implements Serializable {
 
               int fazer_compra = 0;
             
-            System.out.println("\nO que deseja fazer?\n\n1 - Fazer uma compra\n2 - Verificar todas as compras realizadas.\n3 - Mudar data\n4 - Terminar o programa.\n\n");
+            System.out.println("\nO que deseja fazer?\n\n\n1 - Fazer uma compra\n2 - Verificar todas as compras realizadas.\n3 - Mudar data\n4 - Terminar o programa.\n\n");
             escolha = fazer_escolha(5,s);
             
             switch(escolha){
@@ -489,7 +490,7 @@ public class Supermercados implements Serializable {
             ObjectInputStream objectIn = new ObjectInputStream(fileIn);
             Supermercados s = (Supermercados) objectIn.readObject();
             objectIn.close();
-            System.out.println("The Object  was succesfully read to a file");
+            System.out.println("Ficheiro foi escrito com sucesso.");
             return s;
 
         } catch (FileNotFoundException | ClassNotFoundException ex) {
