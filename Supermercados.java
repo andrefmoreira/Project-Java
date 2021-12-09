@@ -510,7 +510,7 @@ public class Supermercados implements Serializable {
     }
 
     /**
-     * Reads the file.
+     * Reads clients file and sees if they are regular or not, creating the type of client found.
      *
      * @param myFil Receives the File that is going to read.
      */
@@ -535,7 +535,11 @@ public class Supermercados implements Serializable {
             System.out.println("Erro a converter texto em inteiro.");
         }
     }
-
+    /**
+     * Reads products files and creates new products with the products found
+     * 
+     * @param myFil File
+     */
     public void ler_ficheiro_produtos(File myFil){
         try {
             Scanner myReader = new Scanner(myFil);
@@ -558,7 +562,11 @@ public class Supermercados implements Serializable {
             System.out.println("Erro a converter texto em inteiro.");
         }
     }
-
+    /**
+     * Reads promotions file and adds all promotions found to the supposed product
+     * 
+     * @param myFil receives file
+     */
     public void ler_ficheiro_promocoes(File myFil){
         try {
             Scanner myReader = new Scanner(myFil);
