@@ -8,13 +8,14 @@ public class Exercicio_avaliacao_5 {
     public static void main(String[] args) {
 
         Supermercados s = new Supermercados();
-
+        String email = null;
+        
         File fileProdutos = new File("produtos.txt");
         File fileClientes = new File("clientes.txt");
         File filePromocoes = new File("promocoes.txt");
         File fileSupermercados = new File("Supermercados.obj");
 
-        Cliente cli = null;
+        Cliente cli;
 
         if(!fileSupermercados.exists()){
             s.ler_ficheiro_produtos(fileProdutos);
@@ -22,13 +23,11 @@ public class Exercicio_avaliacao_5 {
             s.ler_ficheiro_clientes(fileClientes);
             System.out.println("Iniciando login.....");
             System.out.println("Qual o seu email: ");
-            String email = s.ler_texto();
             cli = s.existe(email);
         } else{
             Supermercados s1 = s.ReadObjectToFile(fileSupermercados);
             System.out.println("Iniciando login.....");
             System.out.println("Qual o seu email: ");
-            String email = s1.ler_texto();
             cli = s1.existe(email);
             s = s1;
         }
