@@ -569,13 +569,13 @@ public class Supermercados implements Serializable {
                 Data d1 = new Data(Integer.parseInt(quebra[3]), Integer.parseInt(quebra[4]), Integer.parseInt(quebra[5]));
                 if(Objects.equals(quebra[6], "pague_3_leve_4")){
                     for (int i = 0; i < p.size(); i++){
-                        if(p.get(i).equals(quebra[7])){
+                        if(p.get(i).getNome().equals(quebra[7])){
                             p.get(i).add_promo(new Pague_3_leve_4(d, d1));
                         }
                     }
                 } else{
                     for (int i = 0; i < p.size(); i++){
-                        if(p.get(i).equals(quebra[7])){
+                        if(p.get(i).getNome().equals(quebra[7])){
                             p.get(i).add_promo(new Pague_menos(d, d1));
                         }
                     }
