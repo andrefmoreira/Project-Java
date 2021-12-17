@@ -3,8 +3,9 @@ package exercicio_avaliacao_5;
 import java.io.Serializable;
 
 public class Data implements Serializable {
+
+    private final int dia,mes,ano;
     
-    private int dia, mes, ano;
     
     public Data(int dia, int mes, int ano){
         this.dia = dia;

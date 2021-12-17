@@ -8,7 +8,7 @@ abstract public class Produtos implements Serializable{
     private String nome;
     private double preco;
     private int stock;
-    private ArrayList<Promocoes> promo = new ArrayList<>();
+    private final ArrayList<Promocoes> promo = new ArrayList<>();
     
     public Produtos(String identificador, String nome, double preco, int stock) {
         this.identificador = identificador;

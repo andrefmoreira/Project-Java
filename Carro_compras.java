@@ -2,7 +2,7 @@ package exercicio_avaliacao_5;
 
 import java.io.Serializable;
 
-public class Carro_compras implements Serializable {
+public class Carro_compras implements Serializable{
     
     private Produtos item;
     private int quantidade;

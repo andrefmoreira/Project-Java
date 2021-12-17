@@ -498,7 +498,7 @@ public class Supermercados implements Serializable {
             ObjectInputStream objectIn = new ObjectInputStream(fileIn);
             Supermercados s = (Supermercados) objectIn.readObject();
             objectIn.close();
-            System.out.println("Objeto foi lido do ficheiro.");
+            System.out.println("Ficheiro foi escrito com sucesso.");
             return s;
 
         } catch (FileNotFoundException | ClassNotFoundException ex) {
