@@ -431,18 +431,22 @@ public class Supermercados implements Serializable {
 
                                         System.out.println("\nDigite o nome do produto que deseja eliminar: ");
                                         escolha2 = ler_texto();
-
+                                        
+                                        int eliminar = 0
                                         for(int x = 0; x < p.size() ; x++){
                                             for(Carro_compras carrinho : compra.getCarro()){
                                                 if(escolha2.toLowerCase().equals(carrinho.getItem().getNome().toLowerCase()))
                                                     if(escolha2.toLowerCase().equals(p.get(x).getNome().toLowerCase())){
-                                                        eliminar_produto(p.get(x) , compra);
+                                                        eliminar = x;
                                                         eliminado++;
                                                }
                                            }
-                                        }   
-                                        if(eliminado == 1)
+                                        }
+                                        
+                                        if(eliminado == 1){
+                                            eliminar_produto(p.get(eliminar) , compra);
                                             System.out.println("Produto eliminado com sucesso!");
+                                        }
                                         else
                                              System.out.println("Produto nao encontrado!");   
                                     }else{
